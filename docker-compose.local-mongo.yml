@@ -1,0 +1,20 @@
+# OPTIONAL: local MongoDB instead of a cluster.
+# Run with:  docker compose -f docker-compose.yml -f docker-compose.local-mongo.yml up -d --build
+# (and remove/comment MONGO_URI in .env, or set it to mongodb://mongo:27017)
+
+services:
+  bot:
+    environment:
+      MONGO_URI: mongodb://mongo:27017
+    depends_on:
+      - mongo
+
+  mongo:
+    image: mongo:7
+    container_name: codespace-keeper-mongo
+    restart: unless-stopped
+    volumes:
+      - mongo_data:/data/db
+
+volumes:
+  mongo_data:
